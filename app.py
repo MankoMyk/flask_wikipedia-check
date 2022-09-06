@@ -50,7 +50,5 @@ def generate():
       return 'False   '+str(result1)
 
     # return str(result1) 
-
     # return input # 'Hello'
-
     # http://localhost:5000/generate?input=Ukraine&text=blablabla
