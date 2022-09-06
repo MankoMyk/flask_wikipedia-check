@@ -5,12 +5,17 @@ import wikipedia
 from sklearn.feature_extraction.text import CountVectorizer
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
+import logging
 
 app = Flask(__name__)
+ 
+logging.basicConfig(filename = 'history.log', level=logging.INFO, format = f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 @app.route('/')
 def main():
-    return "Text similarity web service"
+    app.logger.warning('_______ Home page opened')
+    return "Text similarity web service" 
+    
 
 def similar(str1, str2):
         documents = [str1, str2]
@@ -33,7 +38,8 @@ def similar(str1, str2):
 
 @app.route('/generate', methods=['GET'])
 def generate():
-
+    app.logger.warning('_______ "generate" page opened')
+    
     input = request.values.get('input', False)
     text = request.values.get('text', False)
 
