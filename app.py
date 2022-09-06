@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import logging
+import json
 
 app = Flask(__name__)
  
@@ -36,7 +37,7 @@ def similar(str1, str2):
         return js.tolist()[0][1]
 
 
-@app.route('/generate', methods=['GET'])
+@app.route('/generate', methods=['GET','POST'])
 def generate():
     app.logger.warning('_______ "generate" page opened')
     
@@ -49,11 +50,30 @@ def generate():
 
     # return page
 
+    # data = {}
+    data = {
+      "input": input,
+      "text": text
+    }
+    resultDict = {
+      "isSimilar": '',
+      "rate": ''
+    }
+    # data['input'] = input
+    # data['text'] = text
+    # json_resultDict = json.dumps(resultDict)
+
     result1 = similar(page, text)
     if result1 > 0.92:
-      return 'True   '+str(result1)
+      resultDict['isSimilar']=True
+      resultDict['rate']=result1
+      json_resultDict = json.dumps(resultDict)
+      return json_resultDict
     else:
-      return 'False   '+str(result1)
+      resultDict['isSimilar']=False
+      resultDict['rate']=result1
+      json_resultDict = json.dumps(resultDict)
+      return json_resultDict
 
     # return str(result1) 
     # return input # 'Hello'
